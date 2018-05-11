@@ -1,2 +1,2 @@
-# pxt-tbos
-Makecode/PXT support for the Trashbots TB1 controller board
+# tbos-pxt
+tbos api for makeblocks.org microbit tool
