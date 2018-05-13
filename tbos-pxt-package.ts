@@ -45,6 +45,7 @@ namespace tbos {
      * @param m motor 1 or 2
      * @param p power -100 to 100
      */
+    //% weight=60
     //% block
     export function motorPower(m: Motors, p: number): void {
         let mbyte = 0
@@ -75,6 +76,7 @@ namespace tbos {
      * @param m motor 1 or 2
      * @param rpm -120.0 to 120.0
      */
+    //% weight=59
     //% block
     export function motorSpeed(m: Motors, speed: number): void {
         // Add code here
@@ -84,6 +86,7 @@ namespace tbos {
      * Stop a spinning motor
      * @param m motor 1 or 2
      */
+    //% weight=58
     //% block
     export function motorBreak(m: Motors): void {
         // Add code here
@@ -109,20 +112,37 @@ namespace tbos {
         // Add code here
     }
 
+    let encBuffer = pins.createBuffer(4)
+
     /**
      * Read motor encoder location
      * @param m motor 1 or 2
      */
+    //% weight=55
     //% block
     export function encoderAt(m: Motors): number {
-        // Add code here
-        return 0;
+        if (m == Motors.M1)
+            mbyte = -30
+        else if (i == Motors.M1)
+            mbyte = -31
+        else:
+            return 0  // no such encoder
+
+        pins.digitalWritePin(DigitalPin.P16, 0)
+        pins.spiWrite(mbyte)
+        encBuffer.setNumber(pins.spiWrite(3),0)
+        encBuffer.setNumber(pins.spiWrite(2),1)
+        encBuffer.setNumber(pins.spiWrite(1),2)
+        encBuffer.setNumber(pins.spiWrite(0),3)
+        pins.digitalWritePin(DigitalPin.P16, 1)
+        return gyroBuffer.getNumber(NumberFormat.Int32BE, 0)
     }
 
     /**
      * Read motor encoder speed (RPM)
      * @param m motor 1 or 2
      */
+    //% weight=54
     //% block
     export function encoderSpeed(m: Motors): number {
         // Add code here
@@ -133,6 +153,7 @@ namespace tbos {
      * Clear motor encoder
      * @param m motor 1 or 2
      */
+    //% weight=53
     //% block
     export function encoderClear(m: Motors): number {
         // Add code here
@@ -144,6 +165,7 @@ namespace tbos {
      * @param n keyboard notes 1-88
      * @param b beats
      */
+    //% weight=30
     //% block
     export function playNote(n: number, b: number): void {
         // Limit note range, rest is 0
@@ -164,6 +186,7 @@ namespace tbos {
      * @param f frequency 20-4000Hz
      * @param b beats
      */
+    //% weight=29
     //% block
     export function playFrequency(f: number, b: number): void {
         // Limit note range, rest is 0
@@ -185,6 +208,7 @@ namespace tbos {
      * Play a tune
      * @param t tune number 1-8
      */
+    //% weight=28
     //% block
     export function playTune(t: number): void {
     }
@@ -193,6 +217,7 @@ namespace tbos {
     * Set tempo
     * @param b beats per minute
     */
+    //% weight=27
     //% block
     export function playTempo(bpm: number): void {
     }
@@ -201,6 +226,7 @@ namespace tbos {
     * Is a note or tune playing?
     * @returns true if playing
     */
+    //% weight=26
     //% block
     export function playing(): boolean {
         return false
@@ -210,6 +236,7 @@ namespace tbos {
      * Clear a tune
      * @param t tune number 1-8
      */
+    //% weight=25
     //% block
     export function tuneClear(t: number): void {
     }
@@ -220,6 +247,7 @@ namespace tbos {
      * @param n note 1-88
      * @param b beats
      */
+    //% weight=24
     //% block
     export function tuneNote(t: number, n: number, b: number): void {
     }
@@ -227,6 +255,7 @@ namespace tbos {
     /**
     * Stop all motors, servos and sounds
     */
+    //% weight=80
     //% block
     export function stopAll(): void {
     }
@@ -281,6 +310,7 @@ namespace tbos {
 
     /* Read gyro x
     */
+    //% weight=79
     //% block
     export function gyroX(): number {
         let x = gyroReadRegInt16(L3GD20H_RA_OUT_X_L)
@@ -289,6 +319,7 @@ namespace tbos {
 
     /* Read gyro y
     */
+    //% weight=78
     //% block
     export function gyroY(): number {
         let y = gyroReadRegInt16(L3GD20H_RA_OUT_Y_L)
@@ -297,6 +328,7 @@ namespace tbos {
 
     /* Read gyro z
     */
+    //% weight=77
     //% block
     export function gyroZ(): number {
         let z = gyroReadRegInt16(L3GD20H_RA_OUT_Z_L)
