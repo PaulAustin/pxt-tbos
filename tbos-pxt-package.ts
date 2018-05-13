@@ -146,6 +146,17 @@ namespace tbos {
      */
     //% block
     export function playNote(n: number, b: number): void {
+        // Limit note range, rest is 0
+        if (n < 0)
+            n = 0
+        else if (n > 88)
+            n = 88
+
+        // Send command to TBC
+        pins.digitalWritePin(DigitalPin.P16, 0)
+        pins.spiWrite(62)
+        pins.spiWrite(n)
+        pins.digitalWritePin(DigitalPin.P16, 1)
     }
 
     /**
@@ -155,6 +166,19 @@ namespace tbos {
      */
     //% block
     export function playFrequency(f: number, b: number): void {
+        // Limit note range, rest is 0
+        if (f < 0)
+            f = 0
+        else if (f > 4000)
+            f = 4000
+
+        // Send command to TBC
+        pins.digitalWritePin(DigitalPin.P16, 0)
+        pins.spiWrite(63)
+        pins.spiWrite(116)
+        pins.spiWrite(f & 0x0000ff00) >> 8
+        pins.spiWrite(f & 0x000000ff)
+        pins.digitalWritePin(DigitalPin.P16, 1)
     }
 
     /**
