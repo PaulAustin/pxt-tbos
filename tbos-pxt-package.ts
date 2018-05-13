@@ -51,9 +51,9 @@ namespace tbos {
         let mbyte = 0
 
         // Check motors
-        if (m == Motors.M1)
+        if (m === Motors.M1)
             mbyte = 10
-        else if (m == Motors.M2)
+        else if (m === Motors.M2)
             mbyte = 20
         else
             return  // Not a valid motor
@@ -121,11 +121,11 @@ namespace tbos {
     //% weight=55
     //% block
     export function encoderAt(m: Motors): number {
-        if (m == Motors.M1)
+        if (m === Motors.M1)
             mbyte = -30
-        else if (i == Motors.M1)
+        else if (i === Motors.M1)
             mbyte = -31
-        else:
+        else
             return 0  // no such encoder
 
         pins.digitalWritePin(DigitalPin.P16, 0)
