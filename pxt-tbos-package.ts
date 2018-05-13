@@ -121,21 +121,22 @@ namespace tbos {
     //% weight=55
     //% block
     export function encoderAt(m: Motors): number {
+        let mbyte = 0
         if (m === Motors.M1)
-            mbyte = -30
-        else if (i === Motors.M1)
-            mbyte = -31
+            mbyte = -15
+        else if (m === Motors.M1)
+            mbyte = -25
         else
             return 0  // no such encoder
 
         pins.digitalWritePin(DigitalPin.P16, 0)
         pins.spiWrite(mbyte)
-        encBuffer.setNumber(pins.spiWrite(3),0)
-        encBuffer.setNumber(pins.spiWrite(2),1)
-        encBuffer.setNumber(pins.spiWrite(1),2)
-        encBuffer.setNumber(pins.spiWrite(0),3)
+        encBuffer.setNumber(NumberFormat.Int8LE, 0, pins.spiWrite(3))
+        encBuffer.setNumber(NumberFormat.Int8LE, 1, pins.spiWrite(2))
+        encBuffer.setNumber(NumberFormat.Int8LE, 2, pins.spiWrite(1))
+        encBuffer.setNumber(NumberFormat.Int8LE, 3, pins.spiWrite(0))
         pins.digitalWritePin(DigitalPin.P16, 1)
-        return gyroBuffer.getNumber(NumberFormat.Int32BE, 0)
+        return encBuffer.getNumber(NumberFormat.Int32LE, 0)
     }
 
     /**
