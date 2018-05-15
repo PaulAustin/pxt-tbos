@@ -37,24 +37,33 @@ enum Piano {
 /**
  * Custom blocks
  */
-// Use forn-awesome gears for icon
+// Use font-awesome gears for icon
 //% weight=100 color=#CA6F1E   icon=""
 namespace tbos {
+
+    enum {
+      kSPI_m1_power = 10,
+      kPSI_m1_encoder = 15,
+      kSPI_m2_power = 20,
+      kSPI_m2_encoder = 25,
+    }
+
     /**
      * Set a motor to power percentage
      * @param m motor 1 or 2
      * @param p power -100 to 100
      */
-    //% weight=60
     //% block
+    //% weight=60
+    //% p.min=-100 v.max= 100
     export function motorPower(m: Motors, p: number): void {
         let mbyte = 0
 
         // Check motors
         if (m === Motors.M1)
-            mbyte = 10
+            mbyte = kSPI_m1_power
         else if (m === Motors.M2)
-            mbyte = 20
+            mbyte = kSPI_m2_power
         else
             return  // Not a valid motor
 
@@ -76,8 +85,9 @@ namespace tbos {
      * @param m motor 1 or 2
      * @param rpm -120.0 to 120.0
      */
-    //% weight=59
     //% block
+    //% weight=59
+    //% p.min=-100 v.max= 100
     export function motorSpeed(m: Motors, speed: number): void {
         // Add code here
     }
@@ -86,8 +96,9 @@ namespace tbos {
      * Stop a spinning motor
      * @param m motor 1 or 2
      */
-    //% weight=58
     //% block
+    //% weight=58
+    //% blockGap=14
     export function motorBreak(m: Motors): void {
         // Add code here
     }
@@ -98,17 +109,19 @@ namespace tbos {
      * @param position range percentage -100 to 100
      */
     //% block
-    export function servoPosition(s: Servos, pos: number): void {
+    //% weight=10
+    export function servoPosition(s: Servo, pos: number): void {
         // Add code here
     }
 
     /**
      * Set servo idle
      * @param s Servo  1, 2 or 3
-     * @param idle if true.\
+     * @param idle if true.
      */
     //% block
-    export function servoIdle(s: Servos, idle: boolean): void {
+    //% weight=9
+    export function servoIdle(s: Servo, idle: boolean): void {
         // Add code here
     }
 
@@ -335,4 +348,7 @@ namespace tbos {
         let z = gyroReadRegInt16(L3GD20H_RA_OUT_Z_L)
         return z / 114  // convert to degrees per second
     }
+
+    // Initialize the gyro if this package has been included
+    gyroInit();
 }
