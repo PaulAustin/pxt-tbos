@@ -18,17 +18,28 @@ enum Servo {
 }
 
 enum Piano {
-    A3 = 37,
-    B3 = 39,
-    C4 = 40,
-    D4 = 42,
-    E4 = 44,
-    F4 = 45,
-    G4 = 47,
-    A4 = 49,  // 440 Hz
-    B4 = 51,
-    C5 = 52,
-    D5 = 54,
+    //% weight=1
+    a3 = 37,
+    //% weight=2
+    b3 = 39,
+    //% weight=3
+    c4 = 40,
+    //% weight=4
+    d4 = 42,
+    //% weight=5
+    e4 = 44,
+    //% weight=6
+    f4 = 45,
+    //% weight=7
+    g4 = 47,
+    //% weight=8
+    a4 = 49,  // 440 Hz
+    //% weight=9
+    b4 = 51,
+    //% weight=10
+    c5 = 52,
+    //% weight=11
+    d5 = 54,
 }
 
 /**
@@ -323,31 +334,21 @@ namespace tbos {
         return (who === 0b11010111)
     }
 
-    /* Read gyro x
+    /* Read gyro
     */
     //% weight=79
     //% block
-    export function gyroX(): number {
-        let x = gyroReadRegInt16(L3GD20H_RA_OUT_X_L)
-        return x / 114  // convert to degrees per second
-    }
-
-    /* Read gyro y
-    */
-    //% weight=78
-    //% block
-    export function gyroY(): number {
-        let y = gyroReadRegInt16(L3GD20H_RA_OUT_Y_L)
-        return y / 114  // convert to degrees per second
-    }
-
-    /* Read gyro z
-    */
-    //% weight=77
-    //% block
-    export function gyroZ(): number {
-        let z = gyroReadRegInt16(L3GD20H_RA_OUT_Z_L)
-        return z / 114  // convert to degrees per second
+    export function gyro(d: Dimension): number {
+        switch(d) {
+            case Dimension.X:
+                return gyroReadRegInt16(L3GD20H_RA_OUT_X_L) / 114
+            case Dimension.Y:
+                return gyroReadRegInt16(L3GD20H_RA_OUT_Y_L) / 114
+            case Dimension.Z:
+                return gyroReadRegInt16(L3GD20H_RA_OUT_Z_L) / 114
+            default:
+                return 0;
+        }
     }
 
     // Initialize the gyro if this package has been included
