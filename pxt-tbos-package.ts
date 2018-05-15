@@ -1,14 +1,14 @@
 // Copyright (c) 2018 Trashbots, Inc.
 // MIT license in LICENSE file
 
-enum Motors {
+enum Motor {
     //% block="motor1"
     M1 = 1,
     //% block="motor2"
     M2 = 2
 }
 
-enum Servos {
+enum Servo {
     //% block="servo1"
     S1 = 1,
     //% block="servo2"
@@ -18,20 +18,17 @@ enum Servos {
 }
 
 enum Piano {
-    //% block="servo1"
-    A4 = 48,
-    //% block="servo2"
-    B4 = 50,
-    //% block="servo3"
-    C4 = 51,
-    //% block="servo3"
-    D4 = 53,
-    //% block="servo3"
-    E4 = 55,
-    //% block="servo3"
-    F4 = 56,
-    //% block="servo3"
-    G4 = 58
+    A3 = 37,
+    B3 = 39,
+    C4 = 40,
+    D4 = 42,
+    E4 = 44,
+    F4 = 45,
+    G4 = 47,
+    A4 = 49,  // 440 Hz
+    B4 = 51,
+    C5 = 52,
+    D5 = 54,
 }
 
 /**
@@ -41,15 +38,15 @@ enum Piano {
 //% weight=100 color=#CA6F1E   icon=""
 namespace tbos {
 
-    enum TBC_TBC{
-      kFWVers = 1,
-      kSystemStop = 5,  
-      kM1_power = 10,
-      kM1_break = 12,
-      kM1_encoder = 15,
-      kM2_power = 20,
-      kM2_break = 22,
-      kM2_encoder = 25,
+    const enum TbcSpi{
+      FWVers = 1,
+      SystemStop = 5,
+      M1_power = 10,
+      M1_break = 12,
+      M1_encoder = 15,
+      M2_power = 20,
+      M2_break = 22,
+      M2_encoder = 25,
     }
 
     /**
@@ -60,14 +57,14 @@ namespace tbos {
     //% block
     //% weight=60
     //% p.min=-100 v.max= 100
-    export function motorPower(m: Motors, p: number): void {
+    export function motorPower(m: Motor, p: number): void {
         let mbyte = 0
 
         // Check motors
-        if (m === Motors.M1)
-            mbyte = kSPI_m1_power
-        else if (m === Motors.M2)
-            mbyte = kSPI_m2_power
+        if (m === Motor.M1)
+            mbyte = TbcSpi.M1_power
+        else if (m === Motor.M2)
+            mbyte = TbcSpi.M2_power
         else
             return  // Not a valid motor
 
@@ -92,7 +89,7 @@ namespace tbos {
     //% block
     //% weight=59
     //% p.min=-100 v.max= 100
-    export function motorSpeed(m: Motors, speed: number): void {
+    export function motorSpeed(m: Motor, speed: number): void {
         // Add code here
     }
 
@@ -103,7 +100,7 @@ namespace tbos {
     //% block
     //% weight=58
     //% blockGap=14
-    export function motorBreak(m: Motors): void {
+    export function motorBreak(m: Motor): void {
         // Add code here
     }
 
@@ -137,12 +134,12 @@ namespace tbos {
      */
     //% weight=55
     //% block
-    export function encoderAt(m: Motors): number {
+    export function encoderAt(m: Motor): number {
         let mbyte = 0
-        if (m === Motors.M1)
-            mbyte = -15
-        else if (m === Motors.M1)
-            mbyte = -25
+        if (m === Motor.M1)
+            mbyte = 0 - TbcSpi.M1_encoder
+        else if (m === Motor.M1)
+            mbyte = 0 - TbcSpi.M2_encoder
         else
             return 0  // no such encoder
 
@@ -162,7 +159,7 @@ namespace tbos {
      */
     //% weight=54
     //% block
-    export function encoderSpeed(m: Motors): number {
+    export function encoderSpeed(m: Motor): number {
         // Add code here
         return 0;
     }
@@ -173,7 +170,7 @@ namespace tbos {
      */
     //% weight=53
     //% block
-    export function encoderClear(m: Motors): number {
+    export function encoderClear(m: Motor): number {
         // Add code here
         return 0;
     }
