@@ -8,3 +8,4 @@ tool.
 * Gyro
 * Notes and tones
 * Servo
+* Battery

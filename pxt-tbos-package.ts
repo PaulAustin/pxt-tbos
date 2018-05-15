@@ -41,11 +41,15 @@ enum Piano {
 //% weight=100 color=#CA6F1E   icon=""
 namespace tbos {
 
-    enum {
-      kSPI_m1_power = 10,
-      kPSI_m1_encoder = 15,
-      kSPI_m2_power = 20,
-      kSPI_m2_encoder = 25,
+    enum TBC_TBC{
+      kFWVers = 1,
+      kSystemStop = 5,  
+      kM1_power = 10,
+      kM1_break = 12,
+      kM1_encoder = 15,
+      kM2_power = 20,
+      kM2_break = 22,
+      kM2_encoder = 25,
     }
 
     /**
