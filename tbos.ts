@@ -8,6 +8,7 @@ enum Motor {
     M2 = 2
 }
 
+/*
 enum Servo {
     //% block="servo1"
     S1 = 1,
@@ -16,6 +17,7 @@ enum Servo {
     //% block="servo3"
     S3 = 2
 }
+*/
 
 enum Piano {
     //% weight=1
@@ -96,13 +98,13 @@ namespace tbos {
      * Set motor speed
      * @param m motor 1 or 2
      * @param rpm -120.0 to 120.0
-     */
     //% block
     //% weight=59
     //% p.min=-100 v.max= 100
     export function motorSpeed(m: Motor, speed: number): void {
         // Add code here
     }
+    */
 
     /**
      * Stop a spinning motor
@@ -112,30 +114,30 @@ namespace tbos {
     //% weight=58
     //% blockGap=14
     export function motorBreak(m: Motor): void {
-        // Add code here
+        tbos.motorPower(m, 0)
     }
 
     /**
      * Set a servo postion
      * @param s Servo  1, 2 or 3
      * @param position range percentage -100 to 100
-     */
     //% block
     //% weight=10
     export function servoPosition(s: Servo, pos: number): void {
         // Add code here
     }
+    */
 
     /**
      * Set servo idle
      * @param s Servo  1, 2 or 3
      * @param idle if true.
-     */
     //% block
     //% weight=9
     export function servoIdle(s: Servo, idle: boolean): void {
         // Add code here
     }
+    */
 
     let encBuffer = pins.createBuffer(4)
 
@@ -167,24 +169,24 @@ namespace tbos {
     /**
      * Read motor encoder speed (RPM)
      * @param m motor 1 or 2
-     */
     //% weight=54
     //% block
     export function encoderSpeed(m: Motor): number {
         // Add code here
         return 0;
     }
+    */
 
     /**
      * Clear motor encoder
      * @param m motor 1 or 2
-     */
     //% weight=53
     //% block
     export function encoderClear(m: Motor): number {
         // Add code here
         return 0;
     }
+    */
 
     /**
      * Play a piano keyboard note
@@ -233,58 +235,58 @@ namespace tbos {
     /**
      * Play a tune
      * @param t tune number 1-8
-     */
     //% weight=28
     //% block
     export function playTune(t: number): void {
     }
+    */
 
     /**
     * Set tempo
     * @param b beats per minute
-    */
     //% weight=27
     //% block
     export function playTempo(bpm: number): void {
     }
+    */
 
     /**
     * Is a note or tune playing?
     * @returns true if playing
-    */
     //% weight=26
     //% block
     export function playing(): boolean {
         return false
     }
+    */
 
     /**
      * Clear a tune
      * @param t tune number 1-8
-     */
     //% weight=25
     //% block
     export function tuneClear(t: number): void {
     }
+    */
 
     /**
      * Add note to a tune
      * @param t tune number 1-8
      * @param n note 1-88
      * @param b beats
-     */
     //% weight=24
     //% block
     export function tuneNote(t: number, n: number, b: number): void {
     }
+    */
 
     /**
     * Stop all motors, servos and sounds
-    */
     //% weight=80
     //% block
     export function stopAll(): void {
     }
+    */
 
     // Registers for L3GD20H (not exported from package)
     let L3GD20H_ADDR = 0x6B
