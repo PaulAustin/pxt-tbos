@@ -207,6 +207,7 @@ namespace tbos {
         pins.spiWrite(62)
         pins.spiWrite(n)
         pins.digitalWritePin(DigitalPin.P16, 1)
+        basic.pause(250)
     }
 
     /**
@@ -230,6 +231,7 @@ namespace tbos {
         pins.spiWrite(f & 0x0000ff00) >> 8
         pins.spiWrite(f & 0x000000ff)
         pins.digitalWritePin(DigitalPin.P16, 1)
+        basic.pause(250)
     }
 
     /**
