@@ -195,7 +195,7 @@ namespace tbos {
      */
     //% weight=30
     //% block
-    export function playNote(n: number, b: number): void {
+    export function playNote(n: number): void {
         // Limit note range, rest is 0
         if (n < 0)
             n = 0
@@ -216,7 +216,7 @@ namespace tbos {
      */
     //% weight=29
     //% block
-    export function playFrequency(f: number, b: number): void {
+    export function playFrequency(f: number): void {
         // Limit note range, rest is 0
         if (f < 0)
             f = 0
@@ -325,8 +325,7 @@ namespace tbos {
 
     /* Initialize the Gyro (set sensitivity) *
     */
-    //% block
-    export function gyroInit(): boolean {
+    function gyroInit(): boolean {
         gyroWriteReg(L3GD20H_RA_CTRL1, 0b00001111)
         gyroWriteReg(L3GD20H_RA_CTRL2, 0b00000000)
         gyroWriteReg(L3GD20H_RA_CTRL3, 0b00000000)
