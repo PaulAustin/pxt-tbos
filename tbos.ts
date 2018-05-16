@@ -151,7 +151,7 @@ namespace tbos {
         let mbyte = 0
         if (m === Motor.M1)
             mbyte = 0 - TbcSpi.M1_encoder
-        else if (m === Motor.M1)
+        else if (m === Motor.M2)
             mbyte = 0 - TbcSpi.M2_encoder
         else
             return 0  // no such encoder
