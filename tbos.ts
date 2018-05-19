@@ -195,7 +195,7 @@ namespace tbos {
      */
     //% weight=30
     //% block
-    export function playNote(n: number): void {
+    export function playNote(n: number, qb:number): void {
         // Limit note range, rest is 0
         if (n < 0)
             n = 0
@@ -207,7 +207,8 @@ namespace tbos {
         pins.spiWrite(62)
         pins.spiWrite(n)
         pins.digitalWritePin(DigitalPin.P16, 1)
-        basic.pause(250)
+        if (qb > 0)
+          basic.pause(qb * 125)
     }
 
     /**
@@ -217,7 +218,7 @@ namespace tbos {
      */
     //% weight=29
     //% block
-    export function playFrequency(f: number): void {
+    export function playFrequency(f: number, qb:number): void {
         // Limit note range, rest is 0
         if (f < 0)
             f = 0
@@ -231,7 +232,8 @@ namespace tbos {
         pins.spiWrite(f & 0x0000ff00) >> 8
         pins.spiWrite(f & 0x000000ff)
         pins.digitalWritePin(DigitalPin.P16, 1)
-        basic.pause(250)
+        if (qb > 0)
+          basic.pause(qb * 125)
     }
 
     /**
