@@ -8,7 +8,6 @@ enum Motor {
     M2 = 2
 }
 
-/*
 enum Servo {
     //% block="servo1"
     S1 = 1,
@@ -17,7 +16,6 @@ enum Servo {
     //% block="servo3"
     S3 = 2
 }
-*/
 
 enum Piano {
     //% weight=1
@@ -54,12 +52,20 @@ namespace tbos {
     const enum TbcSpi{
       FWVers = 1,
       SystemStop = 5,
+      // Motors
       M1_power = 10,
       M1_break = 12,
       M1_encoder = 15,
       M2_power = 20,
       M2_break = 22,
       M2_encoder = 25,
+      // Servos
+      S1_active = 40,
+      S2_active = 41,
+      S3_active = 42,
+      S1_position = 50,
+      S2_position = 51,
+      S3_position = 52,
     }
 
     /**
@@ -180,13 +186,26 @@ namespace tbos {
     /**
      * Clear motor encoder
      * @param m motor 1 or 2
+     */
     //% weight=53
     //% block
-    export function encoderClear(m: Motor): number {
-        // Add code here
-        return 0;
+    export function encoderClear(m: Motor): void {
+        let mbyte = 0
+
+        // Check motors
+        if (m === Motor.M1)
+            mbyte = TbcSpi.M1_encoder
+        else if (m === Motor.M2)
+            mbyte = TbcSpi.M2_encoder
+        else
+            return  // Not a valid motor
+
+        // Send command to TBC
+        pins.digitalWritePin(DigitalPin.P16, 0)
+        pins.spiWrite(mbyte)
+        pins.spiWrite(0)
+        pins.digitalWritePin(DigitalPin.P16, 1)
     }
-    */
 
     /**
      * Play a piano keyboard note
@@ -358,4 +377,34 @@ namespace tbos {
 
     // Initialize the gyro if this package has been included
     gyroInit();
+
+
+    /* servo positioning
+    */
+    //% weight=5
+    //% block
+    export function servoPosition(s: Servo, p: number): void {
+        let sbyte = 0
+
+        if (s === Servo.S1)
+            sbyte = TbcSpi.S1_position
+        else if (s === Servo.S2)
+            sbyte = TbcSpi.S2_position
+        else if (s === Servo.S3)
+            sbyte = TbcSpi.S3_position
+        else
+            return  // Not a valid servo
+
+        // Limit position range
+        if (p > 180)
+            p = 180
+        else if (p < 0)
+            p = 0
+
+        // Send command to TBC
+        pins.digitalWritePin(DigitalPin.P16, 0)
+        pins.spiWrite(sbyte)
+        pins.spiWrite(p)
+        pins.digitalWritePin(DigitalPin.P16, 1)
+    }
 }
