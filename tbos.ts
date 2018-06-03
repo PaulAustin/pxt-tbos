@@ -66,6 +66,9 @@ namespace tbos {
       S1_position = 50,
       S2_position = 51,
       S3_position = 52,
+      // Sound
+      Note_Solfege = 62,
+      Note_Frequency = 63,
     }
 
     function spiWrite2(register:number, value:number): void {
@@ -234,7 +237,7 @@ namespace tbos {
 
         // Send command to TBC
         // Send command to TBC
-        spiWrite2(mbyte, 0)
+        spiWrite2(TbcSpi.Note_Solfege, n)
         if (qb > 0)
           basic.pause(qb * 125)
     }
@@ -255,7 +258,7 @@ namespace tbos {
 
         // Send command to TBC
         pins.digitalWritePin(DigitalPin.P16, 0)
-        pins.spiWrite(63)
+        pins.spiWrite(TbcSpi.Note_Frequency)
         pins.spiWrite(116)
         pins.spiWrite(f & 0x0000ff00) >> 8
         pins.spiWrite(f & 0x000000ff)
@@ -410,6 +413,6 @@ namespace tbos {
             p = 0
 
         // Send command to TBC
-        spiWrite2(sbyte, P)
+        spiWrite2(sbyte, p)
     }
 }
