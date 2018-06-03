@@ -68,6 +68,14 @@ namespace tbos {
       S3_position = 52,
     }
 
+    function spiWrite2(register:number, value:number): void {
+        // Send register write command to TBC
+        pins.digitalWritePin(DigitalPin.P16, 0)
+        pins.spiWrite(register)
+        pins.spiWrite(value)
+        pins.digitalWritePin(DigitalPin.P16, 1)
+    }
+
     /**
      * Set a motor to power percentage
      * @param m motor 1 or 2
@@ -77,9 +85,8 @@ namespace tbos {
     //% weight=60
     //% p.min=-100 v.max= 100
     export function motorPower(m: Motor, p: number): void {
+        // Map motor to command register
         let mbyte = 0
-
-        // Check motors
         if (m === Motor.M1)
             mbyte = TbcSpi.M1_power
         else if (m === Motor.M2)
@@ -93,11 +100,7 @@ namespace tbos {
         else if (p < -100)
             p = -100
 
-        // Send command to TBC
-        pins.digitalWritePin(DigitalPin.P16, 0)
-        pins.spiWrite(mbyte)
-        pins.spiWrite(p)
-        pins.digitalWritePin(DigitalPin.P16, 1)
+        spiWrite2(mbyte, p)
     }
 
     /**
@@ -120,7 +123,16 @@ namespace tbos {
     //% weight=58
     //% blockGap=14
     export function motorBreak(m: Motor): void {
-        tbos.motorPower(m, 0)
+        // Map motor to command register
+        let mbyte = 0
+        if (m === Motor.M1)
+            mbyte = TbcSpi.M1_break
+        else if (m === Motor.M2)
+            mbyte = TbcSpi.M2_break
+        else
+            return  // Not a valid motor
+
+        spiWrite2(mbyte, 1)
     }
 
     /**
@@ -154,6 +166,7 @@ namespace tbos {
     //% weight=55
     //% block
     export function encoderAt(m: Motor): number {
+        // Map motor to command register
         let mbyte = 0
         if (m === Motor.M1)
             mbyte = 0 - TbcSpi.M1_encoder
@@ -190,6 +203,7 @@ namespace tbos {
     //% weight=53
     //% block
     export function encoderClear(m: Motor): void {
+        // Map motor to command register
         let mbyte = 0
 
         // Check motors
@@ -201,10 +215,7 @@ namespace tbos {
             return  // Not a valid motor
 
         // Send command to TBC
-        pins.digitalWritePin(DigitalPin.P16, 0)
-        pins.spiWrite(mbyte)
-        pins.spiWrite(0)
-        pins.digitalWritePin(DigitalPin.P16, 1)
+        spiWrite2(mbyte, 0)
     }
 
     /**
@@ -222,10 +233,8 @@ namespace tbos {
             n = 88
 
         // Send command to TBC
-        pins.digitalWritePin(DigitalPin.P16, 0)
-        pins.spiWrite(62)
-        pins.spiWrite(n)
-        pins.digitalWritePin(DigitalPin.P16, 1)
+        // Send command to TBC
+        spiWrite2(mbyte, 0)
         if (qb > 0)
           basic.pause(qb * 125)
     }
@@ -378,14 +387,13 @@ namespace tbos {
     // Initialize the gyro if this package has been included
     gyroInit();
 
-
     /* servo positioning
     */
     //% weight=5
     //% block
     export function servoPosition(s: Servo, p: number): void {
+        // Map servo to command register
         let sbyte = 0
-
         if (s === Servo.S1)
             sbyte = TbcSpi.S1_position
         else if (s === Servo.S2)
@@ -402,9 +410,6 @@ namespace tbos {
             p = 0
 
         // Send command to TBC
-        pins.digitalWritePin(DigitalPin.P16, 0)
-        pins.spiWrite(sbyte)
-        pins.spiWrite(p)
-        pins.digitalWritePin(DigitalPin.P16, 1)
+        spiWrite2(sbyte, P)
     }
 }
